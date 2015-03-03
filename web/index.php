@@ -13,9 +13,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 // Main controller
 $app->get('/hello/{name}', function($name) use($app) { 
-    return $app['twig']->render('layout.html.twig', array(
-        'name' => $name,
-    ));
+    return 'Hello ' . $name;
 }); 
 
 $app->run(); 
