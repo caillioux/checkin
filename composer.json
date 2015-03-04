@@ -6,7 +6,8 @@
         "symfony/config": "~2.6",
         "symfony/translation": "~2.6",
         "symfony/security-csrf": "~2.6",
-        "symfony/twig-bridge": "~2.6"
+        "symfony/twig-bridge": "~2.6",
+        "twig/twig": "~1.18"
     },
 
     "autoload": {

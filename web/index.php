@@ -9,10 +9,6 @@ $app['debug'] = true;
 
 $app->register(new FormServiceProvider());
 
-$app->get('/hello/{name}', function($name) use($app) { 
-    return 'Hello '.$app->escape($name); 
-}); 
-
 $app->mount('/form', include(__DIR__ . '/../src/Controllers/SampleForm.php'));
 
 $app->run(); 
