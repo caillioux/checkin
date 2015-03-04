@@ -1,8 +1,8 @@
 # checkin
 Un exemple simple d'outil de gestion de données en PHP/Mysql
 
-## Liste des champs des tables
-### Table "compte"
+## Description des tables
+### Table "contact"
 * nom
 * prenom
 * genre
