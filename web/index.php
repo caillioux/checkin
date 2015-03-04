@@ -1,40 +1,34 @@
 <?php
-use Csanquer\Silex\PdoServiceProvider\Provider\PdoServiceProvider;
-
 require_once __DIR__.'/../vendor/autoload.php'; 
 
 $app = new Silex\Application(); 
+$app['debug'] = true;
 
-$app->register(
-    // you can customize services and options prefix with the provider first argument (default = 'pdo')
-    new PdoServiceProvider('pdo'),
-    array(
-        'pdo.server'   => array(
-            // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
-            'driver'   => 'mysql',
-            'host'     => 'localhost',
-            'dbname'   => 'checkin',
-            'port'     => 3306,
-            'user'     => 'root',
-            'password' => '',
-        ),
-        // optional PDO attributes used in PDO constructor 4th argument driver_options
-        // some PDO attributes can be used only as PDO driver_options
-        // see http://www.php.net/manual/fr/pdo.construct.php
-        'pdo.options' => array(
-            \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
-        ),
-        // optional PDO attributes set with PDO::setAttribute
-        // see http://www.php.net/manual/fr/pdo.setattribute.php
-        'pdo.attributes' => array(
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-        ),
-    )
-);
+require_once __DIR__.'/../src/config/pdo_config.php';
 
-$app['pdo']->query('show tabsdfles');
+// First controller: simple query
 $app->get('/hello/{name}', function($name) use($app) { 
-    return 'Hello '.$app->escape($name); 
+    // get a contact
+    $sql = "SELECT nom, prenom FROM contact LIMIT 1";
+    $stmt = $app['pdo']->query($sql);
+    $contact = $stmt->fetch();
+
+    return 'Hello '.$app->escape($contact['prenom'] . ' ' . $contact['nom']); 
 }); 
+
+
+// Second controller: prepared query
+$app->get('/anotherhello/{name}', function($name) use($app) { 
+    // get a contact
+    $nb_contacts = 2;
+    $sql = "SELECT nom, prenom FROM contact LIMIT :nb_contacts";
+    $stmt = $app['pdo']->prepare($sql);
+    $stmt->bindParam(':nb_contacts', $nb_contacts, PDO::PARAM_INT);
+    $stmt->execute();
+    $contact = $stmt->fetch();
+
+    return 'Hello '.$app->escape($contact['prenom'] . ' ' . $contact['nom']); 
+}); 
+
 
 $app->run(); 
