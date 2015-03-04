@@ -30,7 +30,7 @@ $controller->get('/', function (Request $request) use ($app) {
     }
 
     // display the form
-    return $app['twig']->render('index.twig', array('form' => $form->createView()));
+    return $app['twig']->render('form.twig', array('form' => $form->createView()));
 });
 
 return $controller;
