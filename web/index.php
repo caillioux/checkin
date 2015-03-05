@@ -13,19 +13,44 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 
 // Main controller
-$app->get('/hello/{name}', function($name) use($app) { 
+$app->get('/', function() use($app) { 
     return $app['twig']->render('layout.html.twig', array(
-        'name' => $name,
+        'nom' => 'Martin',
+        'prenom' =>  'Michel'
     ));
+});
 
 // First controller: simple query
-$app->get('/hello/{name}', function($name) use($app) { 
+$app->get('/hello', function() use($app) { 
     // get a contact
     $sql = "SELECT nom, prenom FROM contact LIMIT 1";
     $stmt = $app['pdo']->query($sql);
     $contact = $stmt->fetch();
 
-    return 'Hello '.$app->escape($contact['prenom'] . ' ' . $contact['nom']); 
+    return $app['twig']->render('layout.html.twig', array(
+        'nom' => $contact['nom'],
+        'prenom' =>  $contact['prenom'],
+    ));
+}); 
+
+// Display all contacts
+$app->get('/contact/list', function() use($app) { 
+    // get a contact
+    $sql = "SELECT id, nom, prenom FROM contact ORDER BY nom, prenom";
+    $stmt = $app['pdo']->query($sql);
+    
+    $contacts = array();
+    while($contact = $stmt->fetch()) {
+        $contacts[] = array(
+            'id' => $contact['id'],
+            'nom' => $contact['nom'],
+            'prenom' =>  $contact['prenom'],
+        );
+    }
+
+    return $app['twig']->render('layout.html.twig', array(
+        'contacts' => $contacts
+    ));
 }); 
 
 
@@ -43,4 +68,4 @@ $app->get('/anotherhello/{name}', function($name) use($app) {
 }); 
 
 
-$app->run(); 
+$app->run();
