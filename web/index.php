@@ -33,31 +33,28 @@ $app->get('/admin/contact/list', function() use($app) {
 }); 
 
 
+// First PDO based controller: prepared query
+$app->get('/pdo/{id}', function($id) use($app) { 
+    // get a contact
+    $sql = "SELECT nom, prenom FROM contact WHERE id = :id";
+    $stmt = $app['pdo']->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $contact = $stmt->fetch();
 
-// First controller: simple query
+    return 'Hello '.$app->escape($contact['prenom'] . ' ' . $contact['nom']); 
+})->assert('id', '\d+'); 
+
+
+// Second PDO based controller: simple query
 $app->get('/pdo/{name}', function($name) use($app) { 
     // get a contact
-    $sql = "SELECT nom, prenom FROM contact LIMIT 1";
+    $sql = "SELECT nom, prenom FROM contact WHERE nom LIKE '" . $name . "' LIMIT 1";
     $stmt = $app['pdo']->query($sql);
     $contact = $stmt->fetch();
 
     return 'Hello '.$app->escape($contact['prenom'] . ' ' . $contact['nom']); 
 }); 
-
-
-// Second controller: prepared query
-$app->get('/anotherpdo/{name}', function($name) use($app) { 
-    // get a contact
-    $nb_contacts = 2;
-    $sql = "SELECT nom, prenom FROM contact LIMIT :nb_contacts";
-    $stmt = $app['pdo']->prepare($sql);
-    $stmt->bindParam(':nb_contacts', $nb_contacts, PDO::PARAM_INT);
-    $stmt->execute();
-    $contact = $stmt->fetch();
-
-    return 'Hello '.$app->escape($contact['prenom'] . ' ' . $contact['nom']); 
-}); 
-
 
 $app->run(); 
 
