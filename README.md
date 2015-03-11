@@ -40,6 +40,7 @@ https://github.com/theyoux/checkin
 | address | Adresse sans la ville et le code postal | string |
 | zipcode | Code postal | string |
 | city | Ville | string |
+| created_at | Date de création | datetime |
 
 
 ##Table event_contact

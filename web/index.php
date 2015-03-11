@@ -3,6 +3,9 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 $app = new Silex\Application();
 $app['debug'] = true;
+$app['config'] = [
+    'limit' => 20
+];
 
 // Load database connexion configuration
 require_once __DIR__.'/../src/config/pdo_config.php';
@@ -107,6 +110,31 @@ $app->get('/dashboard/contacts', function() use($app) {
     // Afficher une liste des contacts
     // Action "Nouveau contact"
     // Action "Chercher un contact"
+
+    // Default ordering
+    $ordering = 'created_at';
+
+    // Default limit
+    $limit = $app['config']['limit'];
+
+    // get a contact
+    $sql = "SELECT ";
+    $sql.= "id, gender, lastname, firstname, birthday, phone, email, address, zipcode, city, created_at ";
+    $sql.= "FROM contact ";
+    $sql.= "ORDER BY $ordering ";
+    $sql.= "LIMIT :limit";
+    
+    $stmt = $app['pdo']->prepare($sql);
+    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    // Create response array with all strings to display
+    $response = [];
+    foreach ($stmt as $contact) {
+        $response[] = sprintf('#%s %s %s', $contact['id'], $contact['lastname'], $contact['firstname']);
+    }
+
+    return implode($response, '<br/>');
 });
 
 
@@ -142,21 +170,6 @@ $app->post('/dashboard/contacts/create', function() use($app) {
     // Enregistre les données d'un nouveau contact
 // }
 // });
-
-
-// First PDO based controller: prepared query
-$app->get('/pdo/{id}', function($id) use($app) { 
-    // get a contact
-    $sql = "SELECT nom, prenom FROM contact WHERE id = :id";
-    $stmt = $app['pdo']->prepare($sql);
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt->execute();
-    $contact = $stmt->fetch();
-
-    return 'Hello '.$app->escape($contact['prenom'] . ' ' . $contact['nom']); 
-})->assert('id', '\d+'); 
-
-
 
 $app->run(); 
 
