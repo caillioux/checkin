@@ -1,0 +1,44 @@
+{% extends 'layout.html.twig' %}
+
+{# Override content title #}
+{% block title %}Liste des événements{% endblock %}
+
+{# Override main content #}
+{% block content %}
+  {% if events %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Type</th>
+          <th>Nom</th>
+          <th>Adresse</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>Publié</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for event in events %}
+        <tr>
+          <th scope="row">{{ event.id }}</th>
+          <td>{{ event.type }}</td>
+          <td>{{ event.name }}</td>
+          <td>{{ event.address }}</td>
+          <td>{{ event.date_begin }}</td>
+          <td>{{ event.date_end }}</td>
+          <td>{{ event.published }}</td>
+          <td>
+            <a class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></a>
+            <a class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+          </td>
+        </tr>
+    {% endfor %}
+      </tbody>
+    </table>
+
+  {% else %}
+    <p>Il n'y aucun événement dans la base de données !</p>
+  {% endif %}
+
+{% endblock %}

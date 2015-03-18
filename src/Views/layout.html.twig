@@ -40,7 +40,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">{% block projectName %}{{ projectName }}{% endblock%}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" role="form">
@@ -56,60 +56,16 @@
       </div>
     </nav>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Liste des contacts</h1>
-        
-      {% if contacts %}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nom et prénom</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-        {% for contact in contacts %}
-            <tr>
-              <th scope="row">{{ contact.id }}</th>
-              <td>{{ contact.lastname }} {{ contact.firstname }}</td>
-              <td>
-                <a class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></a>
-                <a class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-              </td>
-            </tr>
-        {% endfor %}
-          </tbody>
-        </table>
-
-      {% else %}
-        <p>Il n'y aucun contact dans la base de données !</p>
-      {% endif %}
-
-
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-      </div>
-    </div>
-
+    {# main content #}
     <div class="container">
-      <!-- Example row of columns -->
+     
       <div class="row">
         <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <h1>{% block title %}Default title{% endblock %}</h1>
+          
+          {% block content %}
+            Default content
+          {% endblock %}
         </div>
       </div>
 
@@ -118,7 +74,9 @@
       <footer>
         <p>&copy; Company 2015</p>
       </footer>
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    </div> <!-- /container -->        
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
         <script src="js/vendor/bootstrap.min.js"></script>

@@ -10,6 +10,7 @@ $app['config'] = [
 // Load database connexion configuration
 require_once __DIR__.'/../src/config/pdo_config.php';
 require_once __DIR__.'/../src/config/twig_config.php';
+require_once __DIR__.'/../src/config/app_config.php';
 
 // Homepage controller
 $app->get('/', function() use($app) { 
@@ -68,6 +69,28 @@ $app->get('/dashboard/events', function() use($app) {
     // Afficher une liste des événements
     // Action "Nouvel événement"
     // Action "Chercher un événement"
+    
+    // Default ordering
+    $ordering = 'date_begin';
+
+    // Default limit
+    $limit = $app['config']['limit'];
+
+    // get a event
+    $sql = "SELECT ";
+    $sql.= "id, name, description, address, latitude, longitude, date_begin, date_end, picture, price, url, type, phone, email, max_places, published ";
+    $sql.= "FROM event ";
+    $sql.= "ORDER BY $ordering ";
+    $sql.= "LIMIT :limit";
+    
+    $eventsStatement = $app['pdo']->prepare($sql);
+    $eventsStatement->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $eventsStatement->execute();
+    
+    return $app['twig']->render('events/list.html.twig', array(
+        'events' => $eventsStatement->fetchAll(),
+    ));
+
 });
 
 
@@ -129,7 +152,7 @@ $app->get('/dashboard/contacts', function() use($app) {
     $contactsStatement->bindParam(':limit', $limit, PDO::PARAM_INT);
     $contactsStatement->execute();
     
-    return $app['twig']->render('layout.html.twig', array(
+    return $app['twig']->render('contacts/list.html.twig', array(
         'contacts' => $contactsStatement->fetchAll(),
     ));
 });
