@@ -7,6 +7,7 @@ $app = new Silex\Application();
 $app['debug'] = true;
 
 require_once __DIR__.'/../src/config/form_config.php';
+require_once __DIR__.'/../src/config/validation_config.php';
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__ . '/../src/views',
