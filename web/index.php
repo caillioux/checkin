@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php'; 
 
+use Symfony\Component\HttpFoundation\Request;
+
 $app = new Silex\Application();
 $app['debug'] = true;
 $app['config'] = [
@@ -128,6 +130,15 @@ $app->post('/dashboard/events/create', function() use($app) {
 // });
 
 
+// Display new contact form controller
+$app->get('/dashboard/contacts/new', function() use($app) { 
+    // Fonctionnalités
+    // Affiche le formulaire vide pour un nouveau contact
+
+    return $app['twig']->render('contacts/new.html.twig', array(
+    ));
+});
+
 // Display contacts controller
 $app->get('/dashboard/contacts', function() use($app) { 
     // Fonctionnalités
@@ -170,16 +181,27 @@ $app->delete('/dashboard/contacts/{id}', function() use($app) {
     // Efface un contact
 });
 
-// Display new contact form controller
-$app->get('/dashboard/contacts/create', function() use($app) { 
-    // Fonctionnalités
-    // Affiche le formulaire vide pour un nouveau contact
-});
 
 // Create a new contact controller
-$app->post('/dashboard/contacts/create', function() use($app) { 
+$app->post('/dashboard/contacts/new', function(Request $request) use($app) { 
     // Fonctionnalités
     // Enregistre les données d'un nouveau contact
+    
+    // echo "<pre>";
+    // echo "POST\n";
+    // print_r($_POST);
+    // echo "GET\n";
+    // print_r($_GET);
+    // echo "</pre>";
+
+    echo "<pre>";
+    print_r($request->request->all());
+    echo "\n";
+    $contact = $request->request->get('contact');
+    echo $contact['firstname'];
+    echo "</pre>";
+
+    return 'formulaire reçu !';
 });
 
 

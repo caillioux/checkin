@@ -5,6 +5,9 @@
 
 {# Override main content #}
 {% block content %}
+
+  <a href="{{ baseUrl }}dashboard/contacts/new" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-plus"></i> Créer</a>
+
   {% if contacts %}
     <table class="table">
       <thead>

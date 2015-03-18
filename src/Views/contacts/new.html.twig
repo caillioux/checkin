@@ -1,0 +1,31 @@
+{% extends 'layout.html.twig' %}
+
+{# Override content title #}
+{% block title %}Nouveau contact{% endblock %}
+
+{# Override main content #}
+{% block content %}
+
+<p><a href="{{ baseUrl }}dashboard/contacts" class="btn btn-link">Retour</a></p>
+
+<form method="post" action="{{ baseUrl }}dashboard/contacts/new">
+  <div class="form-group">
+    <label><input type="radio" id="gender-f" name="contact[gender]" value="f"> Madame</label>
+    <label><input type="radio" id="gender-m" name="contact[gender]" value="m"> Monsieur</label>
+  </div>
+  <div class="form-group">
+    <label for="firstname">Prénom</label>
+    <input type="text" class="form-control" name="contact[firstname]" id="firstname" placeholder="ex: Michel">
+  </div>
+  <div class="form-group">
+    <label for="lastname">Nom</label>
+    <input type="text" class="form-control" name="contact[lastname]" id="lastname" placeholder="ex: Durand">
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" name="contact[email]" id="email" placeholder="ex: michel@durand.com">
+  </div>
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
+
+{% endblock %}
