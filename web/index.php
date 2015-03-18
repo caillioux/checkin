@@ -125,19 +125,12 @@ $app->get('/dashboard/contacts', function() use($app) {
     $sql.= "ORDER BY $ordering ";
     $sql.= "LIMIT :limit";
     
-    $stmt = $app['pdo']->prepare($sql);
-    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-    $stmt->execute();
+    $contactsStatement = $app['pdo']->prepare($sql);
+    $contactsStatement->bindParam(':limit', $limit, PDO::PARAM_INT);
+    $contactsStatement->execute();
     
-    // Create content array with all strings to display
-    $content = [];
-    foreach ($stmt as $contact) {
-        $content[] = sprintf('#%s %s %s', $contact['id'], $contact['lastname'], $contact['firstname']);
-    }
-
-    $content = implode($content, '<br/>');
     return $app['twig']->render('layout.html.twig', array(
-        'content' => $content,
+        'contacts' => $contactsStatement->fetchAll(),
     ));
 });
 

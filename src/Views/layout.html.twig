@@ -9,19 +9,23 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- force base url -->
+        <base href="{{ baseUrl|default('/') }}"/>
+
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <style>
             body {
                 padding-top: 50px;
                 padding-bottom: 20px;
             }
         </style>
-        <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
 
-        <script src="/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -55,8 +59,36 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Hello, {{ name }}!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <h1>Liste des contacts</h1>
+        
+      {% if contacts %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nom et prénom</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for contact in contacts %}
+            <tr>
+              <th scope="row">{{ contact.id }}</th>
+              <td>{{ contact.lastname }} {{ contact.firstname }}</td>
+              <td>
+                <a class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></a>
+                <a class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+              </td>
+            </tr>
+        {% endfor %}
+          </tbody>
+        </table>
+
+      {% else %}
+        <p>Il n'y aucun contact dans la base de données !</p>
+      {% endif %}
+
+
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>
     </div>
@@ -87,11 +119,11 @@
         <p>&copy; Company 2015</p>
       </footer>
     </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
-        <script src="/js/vendor/bootstrap.min.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
 
-        <script src="/js/main.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>
 
