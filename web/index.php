@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php'; 
 
+use Symfony\Component\HttpFoundation\Request;
+
 $app = new Silex\Application();
 $app['debug'] = true;
 $app['config'] = [
@@ -10,6 +12,8 @@ $app['config'] = [
 // Load database connexion configuration
 require_once __DIR__.'/../src/config/pdo_config.php';
 require_once __DIR__.'/../src/config/twig_config.php';
+require_once __DIR__.'/../src/config/form_config.php';
+require_once __DIR__.'/../src/config/validation_config.php';
 
 // Homepage controller
 $app->get('/', function() use($app) { 
@@ -26,6 +30,7 @@ $app->get('/', function() use($app) {
     //      When I click on 'Mot de passe oublié ?'
     //      Then I should be redirected to '/reset-password'
 }); 
+
 
 // Reset password controller
 $app->get('/reset-password', function() use($app) { 
@@ -167,6 +172,10 @@ $app->post('/dashboard/contacts/create', function() use($app) {
     // Enregistre les données d'un nouveau contact
 // }
 // });
+
+
+// Connect form controllers
+$app->mount('/form', include(__DIR__ . '/../src/controllers/SampleFormController.php'));
 
 $app->run(); 
 
