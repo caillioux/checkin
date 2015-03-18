@@ -1,6 +1,7 @@
 {
     "require": {
         "silex/silex": "~1.2",
-        "csanquer/pdo-service-provider": "0.6.*"
+        "csanquer/pdo-service-provider": "0.6.*",
+        "symfony/twig-bridge": "~2.6"
     }
 }
