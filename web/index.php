@@ -2,20 +2,16 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
-use Silex\Provider\FormServiceProvider;
 
 $app = new Silex\Application(); 
 $app['debug'] = true;
 
+require_once __DIR__.'/../src/config/form_config.php';
+
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__ . '/../src/Views',
-));
-$app->register(new FormServiceProvider());
-$app->register(new Silex\Provider\ValidatorServiceProvider());
-$app->register(new Silex\Provider\TranslationServiceProvider(), array(
-    'translator.domains' => array(),
+    'twig.path' => __DIR__ . '/../src/views',
 ));
 
-$app->mount('/form', include(__DIR__ . '/../src/Controllers/SampleForm.php'));
+$app->mount('/form', include(__DIR__ . '/../src/Controllers/SampleFormController.php'));
 
 $app->run(); 
