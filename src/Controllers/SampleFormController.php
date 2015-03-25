@@ -17,12 +17,19 @@ $controller->match('/', function (Request $request) use ($app) {
                 new Assert\Length(array('min' => 5))
             )
         ))
+        ->add('description', 'textarea', array(
+            'constraints' => array(
+                new Assert\NotBlank(), 
+                new Assert\Length(array('min' => 5, 'max' => 10))
+            )
+        ))
         ->add('email', 'text', array(
             'constraints' => new Assert\Email()
         ))
         ->add('gender', 'choice', array(
             'choices' => array(1 => 'male', 2 => 'female'),
             'expanded' => true,
+            'multiple' => true,
             'constraints' => new Assert\Choice(array(1, 2)),
         ))
         ->getForm();  

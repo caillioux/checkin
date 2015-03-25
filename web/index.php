@@ -15,6 +15,7 @@ require_once __DIR__.'/../src/config/twig_config.php';
 require_once __DIR__.'/../src/config/app_config.php';
 require_once __DIR__.'/../src/config/form_config.php';
 require_once __DIR__.'/../src/config/validation_config.php';
+require_once __DIR__.'/../src/config/forms.php';
 
 // Homepage controller
 $app->get('/', function() use($app) { 
@@ -185,11 +186,29 @@ $app->get('/dashboard/contacts/{id}/delete', function($id) use($app) {
 
 
 // Display new contact form controller
-$app->get('/dashboard/contacts/new', function() use($app) { 
-    // return $app->redirect($app['controller_url'] . '/dashboard/contacts');
-    // echo $app['controller_url'];exit;
-    return $app['twig']->render('contacts/new.html.twig', array(
-    ));
+// $app->get('/dashboard/contacts/new', function() use($app) { 
+//     return $app['twig']->render('contacts/new.html.twig', array(
+//     ));
+// });
+
+$app->match('/dashboard/contacts/new', function(Request $request) use($app) { 
+    $form = $app['form_contact'];
+
+    $form->handleRequest($request);
+
+    if ($form->isValid()) {
+        $data = $form->getData();
+        
+        $sql = "INSERT INTO contact (gender, firstname, lastname, email) VALUES (:gender, :firstname, :lastname, :email)";
+        $statement = $app['pdo']->prepare($sql);
+        $statement->execute($data);
+
+        return $app->redirect($app['controller_url'] . '/dashboard/contacts');
+    }
+
+    // display the form
+    return $app['twig']->render('contacts/form.html.twig', array('form' => $form->createView()));
+
 });
 
 // Create a new contact controller
@@ -227,7 +246,7 @@ $app->post('/dashboard/contacts/new', function(Request $request) use($app) {
 
 
 // Connect form controllers
-$app->mount('/form', include(__DIR__ . '/../src/controllers/SampleFormController.php'));
+// $app->mount('/form', include(__DIR__ . '/../src/controllers/SampleFormController.php'));
 
 $app->run(); 
 

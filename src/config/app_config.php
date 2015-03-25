@@ -1,5 +1,4 @@
 <?php
-
 $app['base_url'] = function ($app) {
     $path = dirname($app['request']->getBaseUrl());
     return $app['request']->getSchemeAndHttpHost() . ($path !== '/' ? $path : '');
