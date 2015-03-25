@@ -211,43 +211,6 @@ $app->match('/dashboard/contacts/new', function(Request $request) use($app) {
 
 });
 
-// Create a new contact controller
-$app->post('/dashboard/contacts/new', function(Request $request) use($app) { 
-    // récupérer les données
-    $contact = $request->request->get('contact');
-
-    $sql = "INSERT INTO contact (gender, firstname, lastname, email) VALUES (:gender, :firstname, :lastname, :email)";
-    $statement = $app['pdo']->prepare($sql);
-    $statement->execute($contact);
-
-    // foreach ($contact as $field => $value) {
-    //     $statement->bindParam(':' . $field, $value);
-    // }
-    // $statement->execute();
-
-
-    // $statement->bindParam(':gender', $contact['gender']);
-    // $statement->bindParam(':lastname', $contact['lastname']);
-    // $statement->bindParam(':firstname', $contact['firstname']);
-    // $statement->bindParam(':email', $contact['email']);
-
-    // renvoyer l'utilisateur vers la liste des contacts
-    return $app->redirect($app['controller_url'] . '/dashboard/contacts');
-});
-
-
-// New contact form controller
-// $app->match('/dashboard/contacts/create', function() use($app) { 
-    // Fonctionnalités
-    // Affiche le formulaire vide pour un nouveau contact
-    // Enregistre les données d'un nouveau contact
-// }
-// });
-
-
-// Connect form controllers
-// $app->mount('/form', include(__DIR__ . '/../src/controllers/SampleFormController.php'));
-
 $app->run(); 
 
 
