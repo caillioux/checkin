@@ -6,7 +6,7 @@
 {# Override main content #}
 {% block content %}
 
-  <a href="{{ baseUrl }}dashboard/contacts/new" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-plus"></i> Créer</a>
+  <a href="{{ baseController }}/dashboard/contacts/new" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-plus"></i> Créer</a>
 
   {% if contacts %}
     <table class="table">
@@ -24,7 +24,7 @@
           <td>{{ contact.lastname }} {{ contact.firstname }}</td>
           <td>
             <a class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></a>
-            <a class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+            <a href="{{ baseController }}/dashboard/contacts/{{ contact.id}}/delete" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
           </td>
         </tr>
     {% endfor %}

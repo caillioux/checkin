@@ -130,15 +130,6 @@ $app->post('/dashboard/events/create', function() use($app) {
 // });
 
 
-// Display new contact form controller
-$app->get('/dashboard/contacts/new', function() use($app) { 
-    // Fonctionnalités
-    // Affiche le formulaire vide pour un nouveau contact
-
-    return $app['twig']->render('contacts/new.html.twig', array(
-    ));
-});
-
 // Display contacts controller
 $app->get('/dashboard/contacts', function() use($app) { 
     // Fonctionnalités
@@ -173,35 +164,53 @@ $app->get('/dashboard/contacts', function() use($app) {
 $app->get('/dashboard/contacts/{id}', function() use($app) { 
     // Fonctionnalités
     // Afficher le détail d'un contact
-});
+})->assert('id', '/\d+');
 
 // Delete an contact  controller
-$app->delete('/dashboard/contacts/{id}', function() use($app) { 
-    // Fonctionnalités
-    // Efface un contact
+$app->get('/dashboard/contacts/{id}/delete', function($id) use($app) { 
+
+    $sql = "DELETE FROM contact WHERE id = :id";
+
+    $statement = $app['pdo']->prepare($sql);
+    $statement->bindParam(':id', $id, PDO::PARAM_INT);
+
+    $statement->execute();
+
+    // renvoyer l'utilisateur vers la liste des contacts
+    return $app->redirect($app['controller_url'] . '/dashboard/contacts');
 });
 
+
+// Display new contact form controller
+$app->get('/dashboard/contacts/new', function() use($app) { 
+    // return $app->redirect($app['controller_url'] . '/dashboard/contacts');
+    // echo $app['controller_url'];exit;
+    return $app['twig']->render('contacts/new.html.twig', array(
+    ));
+});
 
 // Create a new contact controller
 $app->post('/dashboard/contacts/new', function(Request $request) use($app) { 
-    // Fonctionnalités
-    // Enregistre les données d'un nouveau contact
-    
-    // echo "<pre>";
-    // echo "POST\n";
-    // print_r($_POST);
-    // echo "GET\n";
-    // print_r($_GET);
-    // echo "</pre>";
-
-    echo "<pre>";
-    print_r($request->request->all());
-    echo "\n";
+    // récupérer les données
     $contact = $request->request->get('contact');
-    echo $contact['firstname'];
-    echo "</pre>";
 
-    return 'formulaire reçu !';
+    $sql = "INSERT INTO contact (gender, firstname, lastname, email) VALUES (:gender, :firstname, :lastname, :email)";
+    $statement = $app['pdo']->prepare($sql);
+    $statement->execute($contact);
+
+    // foreach ($contact as $field => $value) {
+    //     $statement->bindParam(':' . $field, $value);
+    // }
+    // $statement->execute();
+
+
+    // $statement->bindParam(':gender', $contact['gender']);
+    // $statement->bindParam(':lastname', $contact['lastname']);
+    // $statement->bindParam(':firstname', $contact['firstname']);
+    // $statement->bindParam(':email', $contact['email']);
+
+    // renvoyer l'utilisateur vers la liste des contacts
+    return $app->redirect($app['controller_url'] . '/dashboard/contacts');
 });
 
 
