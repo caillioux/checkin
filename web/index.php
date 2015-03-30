@@ -18,41 +18,44 @@ require_once __DIR__.'/../src/config/validation_config.php';
 require_once __DIR__.'/../src/config/forms.php';
 
 // Homepage controller
-$app->get('/', function() use($app) { 
-}); 
-
-
-
-// First controller: simple query
-$app->get('/hello', function() use($app) { 
-    // get a contact
-    $sql = "SELECT lastname, firstname FROM contact LIMIT 1";
-    $stmt = $app['pdo']->query($sql);
-    $contact = $stmt->fetch();
-
-    return $app['twig']->render('layout.html.twig', array(
-        'firstname' => $contact['firstname'],
-        'lastname' =>  $contact['lastname'],
+$app->get('/', function() use($app) {
+    return $app['twig']->render('test.html.twig', array(
     ));
 }); 
 
-// Display all contacts
-$app->get('/contact/list', function() use($app) { 
+// Contacts controller
+$app->get('/contacts', function() use($app) {
     // get a contact
-    $sql = "SELECT id, nom, prenom FROM contact ORDER BY nom, prenom";
+    $sql = "SELECT id, gender, lastname, firstname, birthday FROM contact ORDER BY id DESC";
     $stmt = $app['pdo']->query($sql);
     
     $contacts = array();
     while($contact = $stmt->fetch()) {
         $contacts[] = array(
             'id' => $contact['id'],
-            'nom' => $contact['nom'],
-            'prenom' =>  $contact['prenom'],
+            'gender' =>  $contact['gender'],
+            'lastname' => $contact['lastname'],
+            'firstname' =>  $contact['firstname'],
+            'birthday' =>  $contact['birthday'],
         );
     }
 
-    return $app['twig']->render('layout.html.twig', array(
-        'contacts' => $contacts
+    
+    return $app['twig']->render('contacts/list.html.twig', array(
+        'contacts' => $contacts,
     ));
 }); 
+
+
+// Delete a contact
+$app->get('/contacts/{id}/delete', function($id) use ($app) {
+    $sql = 'DELETE FROM contact WHERE id=:id';
+
+    $statement = $app['pdo']->prepare($sql);
+
+    $statement->execute(array(':id' => $id));
+
+    return $app->redirect($app['controller_url'] . '/contacts');
+});
+
 $app->run(); 

@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Liste des contacts
+{% endblock %}
+
+{% block content %}
+          <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Civilité</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Né(e) le</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+    {% for contact in contacts %}
+                  <tr>
+                    <th scope="row">{{ contact.id }}</th>
+                    <td>{{ contact.gender }}</td>
+                    <td>{{ contact.firstname }}</td>
+                    <td>{{ contact.lastname }}</td>
+                    <td>{{ contact.birthday }}</td>
+                    <td>
+                      <a class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></a>
+                      <a href="{{ baseController }}/contacts/{{ contact.id }}/delete" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                    </td>
+                  </tr>
+    {% endfor %}
+
+                </tbody>
+              </table>
+{% endblock %}
