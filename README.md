@@ -1,38 +1,5 @@
-<<<<<<< HEAD
 # checkin
 Un exemple simple d'outil de gestion de données en PHP/Mysql
-
-## Description des tables
-### Table "contact"
-* nom
-* prenom
-* genre
-* date de naissance
-* email
-* telephone
-* newsletter
-* adresse
-* code postal
-* ville
-* actif
-* date de creation
-
-
-### Table "evenement"
-* nom
-* description
-* datedebut
-* datefin
-* adresse
-* maxinscrits
-* prix
-* visuel
-* ouvert
-* email
-* telephone
-=======
-Définition des données
-======================
 
 ## Adresse du dépôt
 https://github.com/theyoux/checkin
@@ -86,22 +53,3 @@ https://github.com/theyoux/checkin
 | booked_at | Date de la réservation | datetime |
 | amount | Montant de la réservation | float |
 | payed_at | Date du règlement | datetime |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> training-ntic
-
