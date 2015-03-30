@@ -9,7 +9,7 @@ $app->register(
             // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
             'driver'   => 'mysql',
             'host'     => 'localhost',
-            'dbname'   => 'checkin_du',
+            'dbname'   => 'checkin',
             'port'     => 3306,
             'user'     => 'root',
             'password' => '',

@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+<form action="{{ baseController}}/form/" method="post">
+    <h3>Affichage monobloc</h3>
+    {{ form_widget(form) }}
+    
+    <h3>Affichage element par element</h3>
+    {{ form_row(form.email) }}
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.name) }}
+        </div>
+
+        <div class="col-sm-6">
+            {{ form_row(form.description) }}
+            <p>Astuce : utilisez votre clavier pour remplir ce champ.</p>
+        </div>
+    </div>  
+    {{ form_row(form.gender) }}
+    
+    <h3>Affichage granulaire</h3>
+    <p>Libellé :{{ form_label(form.name) }}</p>
+    <p>Champ :{{ form_widget(form.name) }}</p>
+
+    <input type="submit" name="submit" />
+</form>
+{% endblock %}
