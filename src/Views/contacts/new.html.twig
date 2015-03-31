@@ -6,9 +6,9 @@
 {# Override main content #}
 {% block content %}
 
-<p><a href="{{ baseController }}/dashboard/contacts" class="btn btn-link">Retour</a></p>
+<p><a href="{{ baseController }}/contacts" class="btn btn-link">Retour</a></p>
 
-<form method="post" action="{{ baseController }}/dashboard/contacts/new">
+<form method="post" action="{{ baseController }}/contacts/new">
   <div class="form-group">
     <label><input type="radio" id="gender-f" name="contact[gender]" value="f"> Madame</label>
     <label><input type="radio" id="gender-m" name="contact[gender]" value="m"> Monsieur</label>

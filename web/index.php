@@ -49,7 +49,7 @@ $app->get('/contacts', function() use($app) {
 
 // Delete a contact
 $app->get('/contacts/{id}/delete', function($id) use ($app) {
-    $sql = 'DELETE FROM contact WHERE id=:id';
+    $sql = 'DELETE FROM contact WHERE id = :id';
 
     $statement = $app['pdo']->prepare($sql);
 
@@ -58,4 +58,50 @@ $app->get('/contacts/{id}/delete', function($id) use ($app) {
     return $app->redirect($app['controller_url'] . '/contacts');
 });
 
+
+// New contact
+$app->match('/contacts/new', function() use ($app) {
+    $form = $app['form_contact'];
+
+    $form->handleRequest($app['request']);
+
+    if ($form->isValid()) {
+        $contact = $form->getData();
+   
+        $sql = "INSERT INTO contact (lastname, firstname, gender, email) VALUES (:lastname, :firstname, :gender, :email)";
+        $statement = $app['pdo']->prepare($sql);
+        $statement->execute(array(
+            ':lastname' => $contact['lastname'],
+            ':firstname' => $contact['firstname'],
+            ':gender' => $contact['gender'],
+            ':email' => $contact['email'],
+        ));
+
+        // redirect to contact list
+        return $app->redirect($app['controller_url'] . '/contacts');
+    }
+    
+    return $app['twig']->render('contacts/form.html.twig', array(
+        'form' => $form->createView()
+    ));
+});
+
+
 $app->run(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
