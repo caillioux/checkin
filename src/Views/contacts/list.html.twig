@@ -23,7 +23,7 @@
           <th scope="row">{{ contact.id }}</th>
           <td>{{ contact.lastname }} {{ contact.firstname }}</td>
           <td>
-            <a class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="{{ baseController }}/dashboard/contacts/{{ contact.id}}/edit" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></a>
             <a href="{{ baseController }}/dashboard/contacts/{{ contact.id}}/delete" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
           </td>
         </tr>

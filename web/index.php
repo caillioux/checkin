@@ -207,9 +207,53 @@ $app->match('/dashboard/contacts/new', function(Request $request) use($app) {
     }
 
     // display the form
-    return $app['twig']->render('contacts/form.html.twig', array('form' => $form->createView()));
+    return $app['twig']->render('contacts/new.html.twig', array('form' => $form->createView()));
 
 });
+
+
+// Edit a contact
+$app->match('/dashboard/contacts/{id}/edit', function($id, Request $request) use($app) { 
+    // 1. récupérer les données du contact avec une requête SQL
+    // Get contact matching with $id
+    $sql = "SELECT ";
+    $sql.= "gender, lastname, firstname, email ";
+    $sql.= "FROM contact ";
+    $sql.= "WHERE id=:id";
+    
+    $statement = $app['pdo']->prepare($sql);
+    $statement->bindParam(':id', $id, PDO::PARAM_INT);
+    $statement->execute();
+
+    $contact = $statement->fetch();
+    
+    // 2. récupérer le formulaire
+    $form = $app['form_contact'];
+    $form->handleRequest($request);
+
+    // 4. Valider les données
+    if ($form->isValid()) {
+        $data = $form->getData();
+
+        $data['id'] = $id;
+        
+        $sql = "UPDATE contact SET lastname = :lastname, firstname = :firstname, gender = :gender, email = :email WHERE contact.id = :id";
+        $statement = $app['pdo']->prepare($sql);
+        $statement->execute($data);
+
+        return $app->redirect($app['controller_url'] . '/dashboard/contacts');
+    }
+ 
+    // Populate form with contact's data
+    $form->setData($contact);
+
+    // display the form
+    return $app['twig']->render('contacts/edit.html.twig', array(
+        'form' => $form->createView(),
+        'id' => $id,
+    ));
+});
+
 
 $app->run(); 
 

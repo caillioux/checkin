@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{{ baseController}}/dashboard/contacts/new" method="post">
+<form action="{{ baseController}}/dashboard/contacts/{{ id }}/edit" method="post">
     {{ form_row(form.firstname) }}
     {{ form_row(form.lastname) }}
     {{ form_row(form.email) }}
