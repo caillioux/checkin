@@ -245,7 +245,9 @@ $app->match('/dashboard/contacts/{id}/edit', function($id, Request $request) use
     }
  
     // Populate form with contact's data
-    $form->setData($contact);
+    if ($request->isMethod('get')) {
+        $form->setData($contact);
+    }
 
     // display the form
     return $app['twig']->render('contacts/edit.html.twig', array(
