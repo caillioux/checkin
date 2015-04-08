@@ -11,7 +11,7 @@ CREATE TABLE `contact` (
   `gender` varchar(1) NOT NULL,
   `birthday` date NOT NULL,
   `phone` varchar(32) NOT NULL,
-  `email` int(100) NOT NULL,
+  `email` varchar NOT NULL,
   `address` varchar(255) NOT NULL,
   `zipcode` varchar(10) NOT NULL,
   `city` varchar(100) NOT NULL,
